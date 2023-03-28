@@ -1,11 +1,11 @@
-// const searchInput=document.getElementById('search');
+const searchName=document.getElementById("searchBox");
 const suggestionList=document.getElementById('suggestions');
 const resultDiv=document.getElementById('result');
 
 document.getElementById('search').addEventListener('click',search);
 
 function search() {
-    const username = document.getElementById("searchBox").value;
+    const username = searchName.value;
     fetch(`https://api.github.com/users/${username}`).then(response => response.json()).then(data => {
         const resultDiv = document.getElementById("result");
 
