@@ -15,21 +15,31 @@
         crossorigin="anonymous"></script>
 </head>
 
-<body>
+<body class="body">
     <div class="container">
+
+        <!-- <h2>Search GitHub User</h1> -->
         <div class="row search-row">
             <div class="col-sm-12 search-col">
-                <h2>Search GitHub User</h1>
-                    <div class="search-line">
-                        <input type="text" class="input-group-text search" placeholder="Enter a Github username" name="search" id="searchBox">
-                    <button onclick="search()" id="search" class="btn btn-primary search-btn">Search</button>
-            
+                <div class="search-line">
+                    <input type="text" class="input-group-text search" placeholder="Enter a Github username"
+                        name="search" id="searchBox">
+                    <button onclick="search()" id="search" class="btn search-btn">Search</button>
                 </div>
             </div>
         </div>
-        <div class="row search-row">
-            <div class="clo-md-12 search-col">
-                <div class="details" id="result">
+        <div class="row result-row" id="">
+            <div class="col-md-3 suggetion" id="suggestions">
+                
+            </div>
+            <div class="col-md-9 result-user" >
+                <div class="row" id="result">
+
+                </div>
+            </div>
+
+            <div class="row inDetails">
+                <div class="col-md-12 repo-col" id="repo">
 
                 </div>
             </div>
@@ -39,3 +49,4 @@
 </body>
 
 </html>
+<!-- async function showRepos(data){} -->
