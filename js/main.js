@@ -1,38 +1,41 @@
 const searchName = document.getElementById("searchBox");
 const suggestionList = document.getElementById('suggestions');
 const resultDiv = document.getElementById('result');
+const repoCol = document.getElementById("repo");
 
 document.getElementById('search').addEventListener('click', search);
 
 function search() {
   const username = searchName.value;
   fetchUserDetails(username);
-
 }
 
-// add event listener to searchInput to trigger searchUsers on input
-// async function searchUsers() {
-//   const searchText = searchName.value.trim();
-//   if (searchText.length < 1) {
-//     suggestionList.innerHTML = '';
-//     return;
-//   }
-//   try {
-//     const resSugges = await fetch(`https://api.github.com/search/users?q=${searchText}`);
-//     if (resSugges.ok) {
-//       const suggesData = await resSugges.json();
-//       displaySuggestions(suggesData.items);
-//     } else {
-//       throw new Error('Failed to fetch suggestions');
-//     }
-//   } catch (error) {
-//     console.error(error);
-//     suggestionList.innerHTML = '';
-//   }
-// }
-// searchName.addEventListener('input', searchUsers);
 
- 
+async function searchUsers() {
+  const searchText = searchName.value.trim();
+  if (searchText.length < 3) {
+    suggestionList.innerHTML = '';
+    return;
+  }
+  try {
+    const resSugges = await fetch(`https://api.github.com/search/users?q=${searchText}`);
+    if (resSugges.ok) {
+      const suggesData = await resSugges.json();
+      displaySuggestions(suggesData.items);
+    } else {
+      throw new Error('Failed to fetch suggestions');
+    }
+  } catch (error) {
+    console.error(error);
+    suggestionList.innerHTML = '';
+    repoCol.innerHTML = '';
+    resultDiv.innerHTML = '';
+  }
+}
+// add event listener to searchInput to trigger searchUsers on input
+searchName.addEventListener('input', searchUsers);
+
+
 
 
 async function fetchUserDetails(username) {
@@ -55,33 +58,34 @@ async function fetchUserDetails(username) {
 async function displayUserDetails(data) {
   const resultDiv = document.getElementById("result");
   resultDiv.innerHTML = `
-        <div class="clo-md-12 search-col">
+            <div class="clo-md-12 search-col">
                 <div class="details">
                     <img src="${data.avatar_url}" alt="Profile picture">
                     <h3>Hi! ${data.login}</h3>
                     <a href="${data.html_url}" target="_blank">View Profile on GitHub</a>
                 </div>
             </div>
-            <div class="col-md-4 de-1">
-                <h6>${data.followers}</h6>
-                <h5>Followers</h5>
-            </div>
-            <div class="col-md-4 de-1">
-                <h6>${data.following}</h6>
-                <h5>Following</h5>
-            </div>
-            <div class="col-md-4 de-1">
-                <h6>${data.public_repos}</h6>
-                <h5>Public Repositories</h5>
+            <div class="row">
+              <div class="col-md-4 de-1">
+                  <h6>${data.followers}</h6>
+                  <h5>Followers</h5>
+              </div>
+              <div class="col-md-4 de-1">
+                  <h6>${data.following}</h6>
+                  <h5>Following</h5>
+              </div>
+              <div class="col-md-4 de-1">
+                  <h6>${data.public_repos}</h6>
+                  <h5>Public Repositories</h5>
+              </div>
             </div>
         `;
-        
-        displayRepos(data)
-        
+
+  displayRepos(data)
+
 }
 
 async function displayRepos(data) {
-  const repoCol = document.getElementById("repo");
   try {
     const responseRepo = await fetch(`https://api.github.com/users/${data.login}/repos`);
     if (responseRepo.ok) {
@@ -114,7 +118,7 @@ async function displayRepos(data) {
           </tr>
         `;
       });
-      
+
       reposTable.innerHTML = rows.join('');
     } else {
       throw new Error('Failed to fetch repositories');
@@ -124,23 +128,23 @@ async function displayRepos(data) {
   }
 }
 
-// function displaySuggestions(suggesData) {
-//   suggestionList.innerHTML = '';
-//   suggesData.map(user => {
-//     const li = document.createElement('li');
-//     li.innerHTML = `
-//       <img src="${user.avatar_url}" alt="${user.login}">
-//       <span>${user.login}</span>
-//     `;
-//     li.addEventListener('click', async () => {
-//       const userDetails = await fetchUserDetails(user.login);
-//       if (userDetails) {
-//         displayUserDetails(userDetails);
-//       }
-//     });
-//     suggestionList.appendChild(li);
-//   });
-// }
+function displaySuggestions(suggesData) {
+  suggestionList.innerHTML = '';
+  suggesData.map(user => {
+    const li = document.createElement('li');
+    li.innerHTML = `
+      <img src="${user.avatar_url}" alt="${user.login}">
+      <span>${user.login}</span>
+    `;
+    li.addEventListener('click', async () => {
+      const userDetails = await fetchUserDetails(user.login);
+      if (userDetails) {
+        search();
+      }
+    });
+    suggestionList.appendChild(li);
+  });
+}
 
 
 

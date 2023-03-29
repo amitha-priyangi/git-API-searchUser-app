@@ -60,45 +60,64 @@
     }
 
     .result-row {
-        .suggetion{
-            
+        .suggetion {
+            li {
+                text-align: left;
+                list-style: none;
+                padding: 5px;
+
+                img {
+                    width: 50px;
+                    height: 50px;
+                    border: pink;
+                    border-radius: 50%;
+                }
+            }
         }
+
         .result-user {
+            .de-1 {
+                padding: 5px;
+                border: solid 2px pink;
+                background-color: white;
+                color: black;
+                text-align: center;
+            }
+
             .details {
                 text-align: center;
-                img{
+
+                img {
                     width: 200px;
                     height: 200px;
                     border: 1px solid pink;
                     border-radius: 50%;
                 }
             }
-        }
-        .de-1 {
-                padding: 5px;
-                border: solid 2px pink;
-                background-color: white;
-                color: black;
-                text-align: center;
 
-                
-         }
-        
-    }
-    .inDetails{
-        .suggetion{
+            .inDetails {
+                .repo-col {
 
+                    table,
+                    td,
+                    th,
+                    tr {
+                        border: 1px solid pink;
+                    }
+
+                    table {
+                        width: 100%;
+                        border-collapse: collapse;
+                    }
+                }
+            }
         }
-        .repo-col{
-            table, td, th, tr {
-                border: 1px solid pink;
-              }
-              
-              table {
-                width: 100%;
-                border-collapse: collapse;
-              }
-        }
+
+
+
     }
+
+
+
 
 }
